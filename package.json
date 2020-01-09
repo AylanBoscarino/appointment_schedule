@@ -1,8 +1,15 @@
 {
-  "name": "root",
+  "name": "schedule",
   "private": true,
   "devDependencies": {
     "lerna": "^3.18.3"
+  },
+  "scripts": {
+    "install": "yarn lerna bootstrap",
+    "start": "yarn lerna run start",
+    "build": "yarn lerna run build",
+    "clean": "yarn lerna clean",
+    "bootstrap": "yarn install && yarn build && yarn start"
   },
   "workspaces": {
     "packages": [
