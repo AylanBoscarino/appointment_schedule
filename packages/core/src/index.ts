@@ -1,1 +1,1 @@
-export * from './contract/main';
+export * from './appointment';

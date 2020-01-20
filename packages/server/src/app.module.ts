@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
+import { DayModule } from './day/day.module';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { ConfigService } from './config/config.service';
           useUnifiedTopology: true,
         } as TypeOrmModuleOptions),
     }),
+    DayModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
