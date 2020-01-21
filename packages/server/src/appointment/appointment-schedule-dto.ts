@@ -1,12 +1,17 @@
-import { AppointmentContract } from '@schedule/core';
+import {
+  AppointmentContract,
+  AppointmentScheduleContract,
+} from '@schedule/core';
+import moment from 'moment';
+export class AppointmentScheduleDto implements AppointmentScheduleContract {
+  [key: string]: AppointmentContract[];
 
-export class AppointmentScheduleDto {
-  [key: string]: AppointmentContract[] | any;
-  addAppointment(schedule: string, appointment: AppointmentContract) {
-    if (Array.isArray(this[schedule])) {
-      this[schedule].push(appointment);
-    } else {
-      this[schedule] = [appointment];
+  constructor(range: number) {
+    for (let i: number = 0; i < range; i++) {
+      const value: string = moment()
+        .add(i, 'days')
+        .format('YYYY-MM-DD');
+      this[value] = [];
     }
   }
 }

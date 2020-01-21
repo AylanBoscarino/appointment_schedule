@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { AppointmentDto } from './appointment-dto';
+import { minHour, maxHour } from '@schedule/core';
 
 @Controller('appointment')
 export class AppointmentController {
@@ -20,7 +21,10 @@ export class AppointmentController {
 
   @Post()
   async create(@Body() appointment: AppointmentDto) {
-    if (appointment.hour < 10 || appointment.hour > 18) {
+    const hourIsAvailable: boolean = this.appointmentService.checkHourAvailability(
+      appointment.hour,
+    );
+    if (hourIsAvailable) {
       throw new BadRequestException('hour invalid');
     }
     const success = await this.appointmentService.createAppointment(
