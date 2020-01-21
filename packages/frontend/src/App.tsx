@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import { AppointmentScheduleContract } from '@schedule/core';
+import React, { useEffect, useState } from 'react';
+
 import AppointmentSchedule from './appointment/components/AppointmentSchedule';
-import { appointmentSchedule } from './mock/appointment-schedule';
-import CreateAppointmentDialog from './appointment/components/CreateAppointmentDialog';
+import appointmentService from './appointment/services/appointment.service';
 import ScheduleContainer from './schedule/components/ScheduleContainer';
-import ShowAppointmentDialog from './appointment/components/ShowAppointmentDialog';
-import { appointmentContract } from './mock/appointment';
 
 const App: React.FC = () => {
+  const [appointmentsSchedule, setAppointmentsSchedule] = useState<
+    AppointmentScheduleContract
+  >();
+  useEffect(() => {
+    appointmentService.fetchAppointmentSchedule().then(setAppointmentsSchedule);
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
         <ScheduleContainer>
-          {/* <ShowAppointmentDialog
-            handleCancel={() => {}}
-            handleDelete={async () => {}}
-            appointment={appointmentContract}
-          /> */}
-          <AppointmentSchedule schedule={appointmentSchedule} />
+          {!!appointmentsSchedule && (
+            <AppointmentSchedule
+              //@ts-
+              schedule={appointmentsSchedule}
+            />
+          )}
         </ScheduleContainer>
         {/* <CreateAppointmentDialog /> */}
       </header>

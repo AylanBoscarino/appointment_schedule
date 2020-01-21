@@ -1,6 +1,6 @@
 import { AppointmentScheduleContract } from '@schedule/core';
 
-export const appointmentSchedule: AppointmentScheduleContract = {
+export const appointmentSchedule = {
   '2020-01-21': [],
   '2020-01-22': [
     {

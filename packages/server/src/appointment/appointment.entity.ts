@@ -15,8 +15,8 @@ export class AppointmentEntity implements AppointmentContract {
   name!: string;
   @Column()
   email!: string;
-  @Column()
-  phone!: number;
+  @Column({ type: 'int' })
+  phone!: string;
   @CreateDateColumn()
   date!: string;
   @Column()

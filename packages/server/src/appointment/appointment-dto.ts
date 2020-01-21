@@ -14,8 +14,8 @@ export class AppointmentDto implements AppointmentContract {
   @IsEmail()
   readonly email!: string;
 
-  @IsPhoneNumber('BR')
-  readonly phone!: number;
+  @IsNotEmpty()
+  readonly phone!: string;
 
   @IsDateString()
   date!: string;

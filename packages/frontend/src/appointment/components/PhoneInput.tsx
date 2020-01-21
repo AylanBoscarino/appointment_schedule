@@ -39,7 +39,6 @@ function TextMaskCustom(props: TextMaskCustomProps) {
         /[1-9]/,
         /\d/,
         ')',
-        ' ',
         /\d/,
         /\d/,
         /\d/,

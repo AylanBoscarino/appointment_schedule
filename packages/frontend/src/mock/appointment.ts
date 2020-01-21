@@ -1,6 +1,4 @@
-import { AppointmentContract } from '@schedule/core';
-
-export const appointmentContract: AppointmentContract = {
+export const appointmentContract = {
   id: '5e26cd391bc1351b3be9243c',
   name: 'aylan',
   email: 'aylandesousa@gmail.com',

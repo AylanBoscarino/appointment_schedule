@@ -24,7 +24,7 @@ export class AppointmentController {
     const hourIsAvailable: boolean = this.appointmentService.checkHourAvailability(
       appointment.hour,
     );
-    if (hourIsAvailable) {
+    if (!hourIsAvailable) {
       throw new BadRequestException('hour invalid');
     }
     const success = await this.appointmentService.createAppointment(

@@ -20,7 +20,12 @@ function AppointmentsList(props: Props) {
       {hours.map(hour => {
         const appointment = appointments.find(ap => ap.hour === hour);
         return (
-          <AppointmentHour key={hour} hour={hour} appointment={appointment} />
+          <AppointmentHour
+            key={hour}
+            hour={hour}
+            date={date}
+            appointment={appointment}
+          />
         );
       })}
     </Paper>

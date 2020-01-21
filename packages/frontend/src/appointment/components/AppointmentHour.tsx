@@ -12,11 +12,12 @@ import ShowAppointmentDialog from './ShowAppointmentDialog';
 
 interface Props extends WithStyles<typeof styles> {
   hour: number;
+  date: string;
   appointment?: AppointmentContract;
 }
 
 function WithAppointment(props: Props) {
-  const { appointment, classes, hour } = props;
+  const { appointment, classes, hour, date } = props;
   const hourStyle = useAppointmentStyles(!!appointment);
   const appointmentFeedback = useAppointmentFeedback(!!appointment);
 
@@ -31,8 +32,9 @@ function WithAppointment(props: Props) {
         />
       )}
       <CreateAppointmentDialog
+        date={date}
+        hour={hour}
         handleCancel={() => appointmentFeedback.setCreateIsOpen(false)}
-        handleSubmit={async () => {}}
         open={appointmentFeedback.createIsOpen}
       />
       <div className={hourStyle}>

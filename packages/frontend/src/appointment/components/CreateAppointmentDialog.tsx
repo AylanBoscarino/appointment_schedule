@@ -5,36 +5,44 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import { AppointmentContract } from '@schedule/core';
 import React, { useState } from 'react';
-import PhoneInput from './PhoneInput';
+
 import { useCreateAppointmentFormState } from '../functions/hooks';
-import { Backdrop, CircularProgress } from '@material-ui/core';
+import appointmentService from '../services/appointment.service';
+import PhoneInput from './PhoneInput';
 
 interface Props {
   open: boolean;
-  handleSubmit(): Promise<void>;
   handleCancel(): void;
+  date: string;
+  hour: number;
 }
 
 export default function CreateAppointmentDialog(props: Props) {
   const { state, handleChange } = useCreateAppointmentFormState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   async function handleSubmit() {
-    props.handleCancel();
     setLoading(true);
     try {
-      await props.handleSubmit();
+      const dateTime = new Date(props.date).toISOString();
+      const appointment: AppointmentContract = {
+        name: state.name,
+        email: state.email,
+        phone: state.phone,
+        date: dateTime,
+        hour: props.hour,
+      };
+      console.log({ appointment });
+      await appointmentService.createAppointment(appointment);
     } finally {
-      setLoading(false);
+      props.handleCancel();
+      // setLoading(false);
     }
   }
 
-  return loading ? (
-    <Backdrop open={loading}>
-      <CircularProgress color="inherit" />
-    </Backdrop>
-  ) : (
+  return (
     <Dialog
       open={props.open}
       onClose={props.handleCancel}
