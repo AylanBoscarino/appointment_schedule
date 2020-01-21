@@ -5,6 +5,8 @@ import {
   Body,
   ConflictException,
   BadRequestException,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { AppointmentDto } from './appointment-dto';
@@ -34,5 +36,10 @@ export class AppointmentController {
       throw new ConflictException();
     }
     return;
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return this.appointmentService.deleteAppointment(id);
   }
 }

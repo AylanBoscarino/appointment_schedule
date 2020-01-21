@@ -1,16 +1,17 @@
-import React, { useState, useContext } from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import React, { useContext, useState, useEffect, createContext } from 'react';
 
+import {
+  ScheduleContext,
+  ScheduleContextType,
+} from '../../schedule/components/ScheduleContainer';
 import {
   ChangeHandler,
   CreateAppointmentFormState,
   StateHandlerEnumaration,
 } from '../types';
-import {
-  ScheduleContext,
-  ScheduleContextType,
-} from '../../schedule/components/ScheduleContainer';
-import { AppointmentContract } from '@schedule/core';
-import { makeStyles, createStyles, Theme } from '@material-ui/core';
+import { AppointmentScheduleContract } from '@schedule/core';
+import appointmentService from '../services/appointment.service';
 
 export function useCreateAppointmentFormState() {
   const [name, setName] = useState('');
@@ -31,19 +32,6 @@ export function useCreateAppointmentFormState() {
   const state = { name, email, phone };
 
   return { handleChange, state };
-}
-
-export function checkContext(context: ScheduleContextType) {
-  switch (context) {
-    case ScheduleContextType.CLIENT:
-      return (hasAppointment: boolean) => {
-        return hasAppointment ? () => {} : () => {};
-      };
-    case ScheduleContextType.ADMIN:
-      return (hasAppointment: boolean) => {
-        return hasAppointment ? () => {} : () => {};
-      };
-  }
 }
 
 export function useAppointmentStyles(hasAppointment: boolean) {
@@ -99,4 +87,16 @@ export function useAppointmentFeedback(hasAppointment: boolean) {
     createIsOpen,
     setCreateIsOpen,
   };
+}
+
+export function useAppointmentSchedule(fetches: number) {
+  const [appointmentsSchedule, setAppointmentsSchedule] = useState<
+    AppointmentScheduleContract
+  >();
+
+  useEffect(() => {
+    appointmentService.fetchAppointmentSchedule().then(setAppointmentsSchedule);
+  }, [fetches]);
+
+  return { appointmentsSchedule };
 }

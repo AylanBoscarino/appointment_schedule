@@ -60,6 +60,11 @@ export class AppointmentService {
     return appointmentSchedule;
   }
 
+  async deleteAppointment(id: string): Promise<void> {
+    const appointment = await this.appointmentRepository.findOneOrFail(id);
+    await this.appointmentRepository.remove(appointment);
+  }
+
   checkHourAvailability(hour: number): boolean {
     return hour >= minHour && hour <= maxHour;
   }

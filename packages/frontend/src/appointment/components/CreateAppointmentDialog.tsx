@@ -6,11 +6,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import { AppointmentContract } from '@schedule/core';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
 import { useCreateAppointmentFormState } from '../functions/hooks';
 import appointmentService from '../services/appointment.service';
 import PhoneInput from './PhoneInput';
+import { AppointmentContext } from './Main';
 
 interface Props {
   open: boolean;
@@ -21,10 +22,9 @@ interface Props {
 
 export default function CreateAppointmentDialog(props: Props) {
   const { state, handleChange } = useCreateAppointmentFormState();
-  const [loading, setLoading] = useState(true);
+  const setAppointmentFetches = useContext(AppointmentContext);
 
   async function handleSubmit() {
-    setLoading(true);
     try {
       const dateTime = new Date(props.date).toISOString();
       const appointment: AppointmentContract = {
@@ -36,9 +36,9 @@ export default function CreateAppointmentDialog(props: Props) {
       };
       console.log({ appointment });
       await appointmentService.createAppointment(appointment);
+      setAppointmentFetches(prev => prev + 1);
     } finally {
       props.handleCancel();
-      // setLoading(false);
     }
   }
 

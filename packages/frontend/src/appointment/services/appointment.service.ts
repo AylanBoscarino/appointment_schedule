@@ -25,6 +25,15 @@ export class AppointmentService {
       throw new Error(String(response.status));
     }
   }
+
+  async removeAppointment(id: string): Promise<void> {
+    const response = await fetch(this.api + this.appointmentRoute + '/' + id, {
+      method: 'DELETE',
+    });
+    if (response.status !== 200) {
+      throw new Error(String(response.status));
+    }
+  }
 }
 
 const appointmentService = new AppointmentService();

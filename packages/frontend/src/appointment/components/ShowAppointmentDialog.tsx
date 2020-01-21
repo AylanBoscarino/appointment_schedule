@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { WithStyles, createStyles, withStyles } from '@material-ui/styles';
 import {
   Theme,
@@ -10,21 +10,25 @@ import {
   Button,
 } from '@material-ui/core';
 import { AppointmentContract } from '@schedule/core';
+import { AppointmentContext } from './Main';
+import appointmentService from '../services/appointment.service';
 
 interface Props extends WithStyles<typeof styles> {
   open: boolean;
   appointment: AppointmentContract;
   handleCancel(): void;
-  handleDelete(app: AppointmentContract): Promise<void>;
 }
 
 function ShowAppointmentDialog(props: Props) {
   const { appointment } = props;
+  const setAppointmentFetches = useContext(AppointmentContext);
+
   const [year, month, day] = appointment.date.split('T')[0].split('-');
   const date = `${day}/${month}/${year}`;
   async function handleDelete() {
     try {
-      await props.handleDelete(appointment);
+      await appointmentService.removeAppointment(appointment.id! as string);
+      setAppointmentFetches(prev => prev + 1);
     } finally {
       props.handleCancel();
     }

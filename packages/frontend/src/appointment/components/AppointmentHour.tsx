@@ -28,7 +28,6 @@ function WithAppointment(props: Props) {
           open={appointmentFeedback.showIsOpen}
           appointment={appointment}
           handleCancel={() => appointmentFeedback.setShowIsOpen(false)}
-          handleDelete={async () => {}}
         />
       )}
       <CreateAppointmentDialog
