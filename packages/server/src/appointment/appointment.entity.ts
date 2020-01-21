@@ -1,4 +1,10 @@
-import { Entity, ObjectIdColumn, ObjectID, Column } from 'typeorm';
+import {
+  Entity,
+  ObjectIdColumn,
+  ObjectID,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 import { AppointmentContract } from '@schedule/core';
 
 @Entity()
@@ -11,7 +17,7 @@ export class AppointmentEntity implements AppointmentContract {
   email!: string;
   @Column()
   phone!: number;
-  @Column()
+  @CreateDateColumn()
   date!: string;
   @Column()
   hour!: number;

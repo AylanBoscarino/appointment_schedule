@@ -7,6 +7,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { DayModule } from './day/day.module';
 import { AppointmentModule } from './appointment/appointment.module';
+import { UtilModule } from './util/util.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AppointmentModule } from './appointment/appointment.module';
     }),
     DayModule,
     AppointmentModule,
+    UtilModule,
   ],
   controllers: [AppController],
   providers: [AppService],
