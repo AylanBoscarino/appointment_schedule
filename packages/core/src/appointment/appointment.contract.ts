@@ -1,7 +1,8 @@
 export interface AppointmentContract {
+  id: string;
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   date: string;
   hour: number;
 }
