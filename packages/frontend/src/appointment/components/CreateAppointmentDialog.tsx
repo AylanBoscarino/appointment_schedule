@@ -5,73 +5,81 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import React from 'react';
+import React, { useState } from 'react';
 import PhoneInput from './PhoneInput';
 import { useCreateAppointmentFormState } from '../functions/hooks';
+import { Backdrop, CircularProgress } from '@material-ui/core';
 
-export default function CreateAppointmentDialog() {
+interface Props {
+  open: boolean;
+  handleSubmit(): Promise<void>;
+  handleCancel(): void;
+}
+
+export default function CreateAppointmentDialog(props: Props) {
   const { state, handleChange } = useCreateAppointmentFormState();
-  const [open, setOpen] = React.useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  async function handleSubmit() {
+    props.handleCancel();
+    setLoading(true);
+    try {
+      await props.handleSubmit();
+    } finally {
+      setLoading(false);
+    }
+  }
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Agendar nova consulta
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Agendar nova consulta</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Para agendar uma consulta selecione um horário disponível e insira
-            seu nome, e-mail e telefone com DDD
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Nome completo"
-            type="text"
-            fullWidth
-            value={state.name}
-            onChange={handleChange('name')}
-          />
-        </DialogContent>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="email"
-            label="Endereço de e-mail"
-            type="email"
-            fullWidth
-            value={state.email}
-            onChange={handleChange('email')}
-          />
-        </DialogContent>
-        <DialogContent>
-          <PhoneInput value={state.phone} onChange={handleChange('phone')} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Cadastrar
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+  return loading ? (
+    <Backdrop open={loading}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  ) : (
+    <Dialog
+      open={props.open}
+      onClose={props.handleCancel}
+      aria-labelledby="form-dialog-title"
+    >
+      <DialogTitle id="form-dialog-title">Agendar nova consulta</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Para agendar uma consulta selecione um horário disponível e insira seu
+          nome, e-mail e telefone com DDD
+        </DialogContentText>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Nome completo"
+          type="text"
+          fullWidth
+          value={state.name}
+          onChange={handleChange('name')}
+        />
+      </DialogContent>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="email"
+          label="Endereço de e-mail"
+          type="email"
+          fullWidth
+          value={state.email}
+          onChange={handleChange('email')}
+        />
+      </DialogContent>
+      <DialogContent>
+        <PhoneInput value={state.phone} onChange={handleChange('phone')} />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={props.handleCancel} color="primary">
+          Cancelar
+        </Button>
+        <Button onClick={handleSubmit} color="primary">
+          Cadastrar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

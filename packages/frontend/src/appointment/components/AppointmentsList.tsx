@@ -19,7 +19,9 @@ function AppointmentsList(props: Props) {
       <br />
       {hours.map(hour => {
         const appointment = appointments.find(ap => ap.hour === hour);
-        return <AppointmentHour hour={hour} appointment={appointment} />;
+        return (
+          <AppointmentHour key={hour} hour={hour} appointment={appointment} />
+        );
       })}
     </Paper>
   );

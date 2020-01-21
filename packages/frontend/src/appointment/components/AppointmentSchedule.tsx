@@ -16,18 +16,16 @@ function AppointmentSchedule(props: Props) {
   const entries: [string, AppointmentContract[]][] = Object.entries(schedule);
 
   return (
-    <Container>
-      <Grid container className={classes.container} spacing={3}>
-        {entries.map((entry: [string, AppointmentContract[]], index) => {
-          const [date, appointments] = entry;
-          return (
-            <Grid key={index} item>
-              <AppointmentsList date={date} appointments={appointments} />
-            </Grid>
-          );
-        })}
-      </Grid>
-    </Container>
+    <Grid container className={classes.container} spacing={3}>
+      {entries.map((entry: [string, AppointmentContract[]], index) => {
+        const [date, appointments] = entry;
+        return (
+          <Grid key={index} item>
+            <AppointmentsList date={date} appointments={appointments} />
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 }
 
